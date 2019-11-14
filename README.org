@@ -1,0 +1,11 @@
+* What is `ox-jekyll`?
+
+  Custom org exporter, HTML output with [[https://jekyllrb.com/][Jekyll]]'s yaml front matter.
+
+  Original version is org-octpress published
+  by Yoshinari Nomura (乃村 能成):
+  http://github.com/yoshinari-nomura/org-octopress
+
+* License
+
+  GPL-3+
