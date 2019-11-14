@@ -6,6 +6,18 @@
   by Yoshinari Nomura (乃村 能成):
   http://github.com/yoshinari-nomura/org-octopress
 
+** List of Changes from original version.
+
+*** TODO Add more YAML Front Matter [/]
+
+    - =refs=
+    - =permalink=
+    - =lang=
+
+*** Force output ={%% codeblock 'lang' %%}=
+
+    - use syntax highlighter provided jekyll's plugin
+
 * License
 
   GPL-3+

@@ -140,6 +140,12 @@ holding export options."
          (org-jekyll--get-option info :title))
         (date
          (org-jekyll--get-option info :date))
+        (lang
+         (org-jekyll--get-option info :lang))
+        (ref
+         (org-jekyll--get-option info :ref))
+        (permalink
+         (org-jekyll--get-option info :permalink))
         (layout
          (org-jekyll--get-option info :layout org-jekyll-layout))
         (categories
@@ -160,7 +166,10 @@ holding export options."
      "---"
      "\ntitle: \""    title
      "\"\ndate: "     date
+     "\nlang: "       lang
      "\nlayout: "     layout
+     "\nref: "        ref
+     "\npermalink: "  permalink
      "\ncategories: " (funcall convert-to-yaml-list  categories)
      "\ntags: "       (funcall convert-to-yaml-list tags)
      "\npublished: "  published
