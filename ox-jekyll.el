@@ -85,7 +85,7 @@
     (src-block . org-jekyll-src-block)
     (inner-template . org-jekyll-inner-template)) ;; force body-only
   :options-alist
-  '((:lang "LANG" nil nil)
+  '((:lang "LANGUAGE" nil nil)
     (:ref "REF" nil nil)
     (:permalink "PERMALINK" nil nil)
     (:layout "LAYOUT" nil org-jekyll-layout)
@@ -93,7 +93,6 @@
     (:tags "TAGS" nil org-jekyll-tags)
     (:published "PUBLISHED" nil org-jekyll-published)
     (:comments "COMMENTS" nil org-jekyll-comments)))
-
 
 ;;; Internal Filters
 (defun org-jekyll-src-block (src-block contents info)
