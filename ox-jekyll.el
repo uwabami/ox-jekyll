@@ -103,7 +103,7 @@ INFO is a plist used as a communication channel."
   (let ((language (org-element-property :language src-block))
         (value (org-remove-indentation
                 (org-element-property :value src-block))))
-    (format "{%% codeblock lang:%s %%}\n%s{%% endcodeblock %%}"
+    (format "{%% highlight %s %%}\n%s{%% endhighlight %%}"
             language value)))
 
 ;;; Template
