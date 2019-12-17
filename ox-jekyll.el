@@ -39,6 +39,7 @@
 ;;; Dependencies
 
 (require 'ox-html)
+(require 's)
 
 ;;; User Configurable Variables
 
@@ -101,10 +102,15 @@ if `org-jekyll-use-src-plugin` is t. Otherwise, perform as
 `org-html-src-block`. CONTENTS holds the contents of the item.
 INFO is a plist used as a communication channel."
   (let ((language (org-element-property :language src-block))
-        (value (org-remove-indentation
-                (org-element-property :value src-block))))
+        (value
+         ;; escape liquid
+         (org-remove-indentation
+          (org-element-property :value src-block))))
     (format "{%% highlight %s %%}\n%s{%% endhighlight %%}"
-            language value)))
+            language
+            (s-replace-all '(("{" . "&#123;")
+                             ("}" . "&$125;"))
+                           value))))
 
 ;;; Template
 (defun org-jekyll-template (contents info)
