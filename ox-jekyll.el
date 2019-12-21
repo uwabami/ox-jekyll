@@ -8,6 +8,7 @@
 ;; Version: 0.1.1
 ;; Original: https://github.com/yoshinari-nomura/org-octopress
 ;;           by Yoshinari Nomura <nom@quickhack.net>
+;; Package-Requires: ((org))
 
 ;; This is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by
@@ -39,7 +40,6 @@
 ;;; Dependencies
 
 (require 'ox-html)
-(require 's)
 
 ;;; User Configurable Variables
 
@@ -84,7 +84,8 @@
   :translate-alist
   '((template . org-jekyll-template) ;; add YAML front matter.
     (src-block . org-jekyll-src-block)
-    (inner-template . org-jekyll-inner-template)) ;; force body-only
+    (inner-template . org-jekyll-inner-template) ;; force body-only
+    )
   :options-alist
   '((:lang "LANGUAGE" nil nil)
     (:ref "REF" nil nil)
@@ -106,11 +107,10 @@ INFO is a plist used as a communication channel."
          ;; escape liquid
          (org-remove-indentation
           (org-element-property :value src-block))))
-    (format "{%% highlight %s %%}\n%s{%% endhighlight %%}"
+    (format "{%% highlight %s %%}\n{%% raw %%}\n%s\n{%% endraw %%}\n{%% endhighlight %%}"
             language
-            (s-replace-all '(("{" . "&#123;")
-                             ("}" . "&$125;"))
-                           value))))
+            value
+            )))
 
 ;;; Template
 (defun org-jekyll-template (contents info)
