@@ -1,11 +1,11 @@
-;;; ox-jekyll.el --- Export Jekyll articles using org-mode.
+;;; ox-jekyll.el --- Export Jekyll articles using org-mode.  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2013-2017  Yoshinari Nomura
-;;               2019 Youhei SASAKI
+;;               2019-2026 Youhei SASAKI
 
 ;; Author: Youhei SASAKI <uwabami@gfd-dennou.org>
 ;; Keywords: org, jekyll
-;; Version: 0.1.1
+;; Version: 0.1.2
 ;; Original: https://github.com/yoshinari-nomura/org-octopress
 ;;           by Yoshinari Nomura <nom@quickhack.net>
 ;; Package-Requires: ((org))
@@ -64,6 +64,11 @@
   :group 'org-export-jekyll
   :type 'string)
 
+(defcustom org-jekyll-description ""
+  "Default descriotion in Jekyll article."
+  :group 'org-export-jekyll
+  :type 'string)
+
 (defcustom org-jekyll-published "true"
   "Default publish status in Jekyll article."
   :group 'org-export-jekyll
@@ -71,6 +76,11 @@
 
 (defcustom org-jekyll-comments ""
   "Default comments (disqus) flag in Jekyll article."
+  :group 'org-export-jekyll
+  :type 'string)
+
+(defcustom org-jekyll-math ""
+  "Default math mode in Jekyll article."
   :group 'org-export-jekyll
   :type 'string)
 
@@ -94,10 +104,13 @@
     (:categories "CATEGORIES" nil org-jekyll-categories)
     (:tags "TAGS" nil org-jekyll-tags)
     (:published "PUBLISHED" nil org-jekyll-published)
-    (:comments "COMMENTS" nil org-jekyll-comments)))
+    (:description "DESCRIPTION" nil org-jekyll-description)
+    (:comments "COMMENTS" nil org-jekyll-comments)
+    (:comments "MATH" nil org-jekyll-math)
+    ))
 
 ;;; Internal Filters
-(defun org-jekyll-src-block (src-block contents info)
+(defun org-jekyll-src-block (src-block _contents _info)
   "Transcode SRC-BLOCK element into jekyll code template format
 if `org-jekyll-use-src-plugin` is t. Otherwise, perform as
 `org-html-src-block`. CONTENTS holds the contents of the item.
@@ -159,8 +172,12 @@ holding export options."
          (org-jekyll--get-option info :tags org-jekyll-tags))
         (published
          (org-jekyll--get-option info :published org-jekyll-published))
+        (description
+         (org-jekyll--get-option info :description org-jekyll-description))
         (comments
          (org-jekyll--get-option info :comments))
+        (math
+         (org-jekyll--get-option info :math org-jekyll-math))
         (convert-to-yaml-list
          (lambda (arg)
            (mapconcat #'(lambda (text)(concat "\n- " text))
@@ -169,16 +186,18 @@ holding export options."
       (setq title (concat "[PREVIEW] " title)))
     (concat
      "---"
-     "\ntitle: \""    title
-     "\"\ndate: "     date
-     "\nlang: "       lang
-     "\nlayout: "     layout
-     "\nref: "        ref
-     "\npermalink: "  permalink
-     "\ncategories: " (funcall convert-to-yaml-list  categories)
-     "\ntags: "       (funcall convert-to-yaml-list tags)
-     "\npublished: "  published
-     "\ncomments: "   comments
+     "\ntitle: \""       title
+     "\"\ndate: "        date
+     "\nlang: "          lang
+     "\nlayout: "        layout
+     "\nref: "           ref
+     "\npermalink: "     permalink
+     "\ncategories: "    (funcall convert-to-yaml-list categories)
+     "\ntags: "          (funcall convert-to-yaml-list tags)
+     "\ndescription: \"" description
+     "\"\npublished: "   published
+     "\ncomments: \""    comments
+     "\"\nmath: "        math
      "\n---\n")))
 
 ;;; Filename and Date Helper
