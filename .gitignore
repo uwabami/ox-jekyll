@@ -13,3 +13,4 @@
 # package
 *-autoloads.el
 *-pkg.el
+.test-elpa
